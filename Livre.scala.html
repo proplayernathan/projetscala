@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>Livre.scala</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Livre.scala</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">collection</span><span class="s2">.</span><span class="s1">mutable</span><span class="s2">.</span><span class="s1">ArrayBuffer</span>
+
+<span class="s0">class </span><span class="s1">Livre</span><span class="s2">(</span><span class="s0">var </span><span class="s1">titre: String</span><span class="s2">, </span><span class="s0">var </span><span class="s1">auteur: String</span><span class="s2">, </span><span class="s0">var </span><span class="s1">anneeDePublication: Int</span><span class="s2">) {</span>
+  <span class="s0">var </span><span class="s1">estEmprunte: Boolean </span><span class="s2">= </span><span class="s0">false</span>
+
+  <span class="s0">def </span><span class="s1">emprunter</span><span class="s2">()</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s1">estEmprunte </span><span class="s2">= </span><span class="s0">true</span>
+    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre a été emprunté.&quot;</span><span class="s2">)</span>
+  <span class="s2">}</span>
+
+  <span class="s0">def </span><span class="s1">rendre</span><span class="s2">()</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s1">estEmprunte </span><span class="s2">= </span><span class="s0">false</span>
+    <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre a été rendu.&quot;</span><span class="s2">)</span>
+  <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">class </span><span class="s1">Bibliotheque </span><span class="s2">{</span>
+  <span class="s0">val </span><span class="s1">listeDeLivres: ArrayBuffer</span><span class="s2">[</span><span class="s1">Livre</span><span class="s2">] = </span><span class="s0">new </span><span class="s1">ArrayBuffer</span><span class="s2">[</span><span class="s1">Livre</span><span class="s2">]()</span>
+
+  <span class="s0">def </span><span class="s1">ajouterLivre</span><span class="s2">(</span><span class="s1">titre: String</span><span class="s2">, </span><span class="s1">auteur: String</span><span class="s2">, </span><span class="s1">annee: Int</span><span class="s2">)</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s0">val </span><span class="s1">nouveauLivre </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Livre</span><span class="s2">(</span><span class="s1">titre</span><span class="s2">, </span><span class="s1">auteur</span><span class="s2">, </span><span class="s1">annee</span><span class="s2">)</span>
+    <span class="s1">listeDeLivres += nouveauLivre</span>
+  <span class="s2">}</span>
+
+  <span class="s0">def </span><span class="s1">emprunterLivre</span><span class="s2">(</span><span class="s1">titre: String</span><span class="s2">)</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s0">val </span><span class="s1">livreOption </span><span class="s2">= </span><span class="s1">listeDeLivres</span><span class="s2">.</span><span class="s1">find</span><span class="s2">(</span><span class="s1">_</span><span class="s2">.</span><span class="s1">titre == titre</span><span class="s2">)</span>
+    <span class="s1">livreOption </span><span class="s0">match </span><span class="s2">{</span>
+      <span class="s0">case </span><span class="s1">Some</span><span class="s2">(</span><span class="s1">livre</span><span class="s2">) =&gt;</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">!livre</span><span class="s2">.</span><span class="s1">estEmprunte</span><span class="s2">) {</span>
+          <span class="s1">livre</span><span class="s2">.</span><span class="s1">emprunter</span><span class="s2">()</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+          <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre n'est pas disponible pour le moment.&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+      <span class="s0">case </span><span class="s1">None </span><span class="s2">=&gt;</span>
+        <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre n'est pas disponible dans la bibliothèque.&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+  <span class="s2">}</span>
+
+  <span class="s0">def </span><span class="s1">rendreLivre</span><span class="s2">(</span><span class="s1">titre: String</span><span class="s2">)</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s0">val </span><span class="s1">livreOption </span><span class="s2">= </span><span class="s1">listeDeLivres</span><span class="s2">.</span><span class="s1">find</span><span class="s2">(</span><span class="s1">_</span><span class="s2">.</span><span class="s1">titre == titre</span><span class="s2">)</span>
+    <span class="s1">livreOption </span><span class="s0">match </span><span class="s2">{</span>
+      <span class="s0">case </span><span class="s1">Some</span><span class="s2">(</span><span class="s1">livre</span><span class="s2">) =&gt;</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">livre</span><span class="s2">.</span><span class="s1">estEmprunte</span><span class="s2">) {</span>
+          <span class="s1">livre</span><span class="s2">.</span><span class="s1">rendre</span><span class="s2">()</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+          <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre n'est pas emprunté pour le moment.&quot;</span><span class="s2">)</span>
+        <span class="s2">}</span>
+      <span class="s0">case </span><span class="s1">None </span><span class="s2">=&gt;</span>
+        <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Le livre n'existe pas dans cette bibliothèque.&quot;</span><span class="s2">)</span>
+    <span class="s2">}</span>
+  <span class="s2">}</span>
+<span class="s2">}</span>
+
+<span class="s0">object </span><span class="s1">Main </span><span class="s2">{</span>
+  <span class="s0">def </span><span class="s1">main</span><span class="s2">(</span><span class="s1">args: Array</span><span class="s2">[</span><span class="s1">String</span><span class="s2">])</span><span class="s1">: Unit </span><span class="s2">= {</span>
+    <span class="s0">val </span><span class="s1">bibliotheque </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Bibliotheque</span><span class="s2">()</span>
+
+    <span class="s0">var </span><span class="s1">running </span><span class="s2">= </span><span class="s0">true</span>
+    <span class="s0">while </span><span class="s2">(</span><span class="s1">running</span><span class="s2">) {</span>
+      <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">Que voulez-vous faire ?&quot;</span><span class="s2">)</span>
+      <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;1. Ajouter un livre&quot;</span><span class="s2">)</span>
+      <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;2. Emprunter un livre&quot;</span><span class="s2">)</span>
+      <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;3. Rendre un livre&quot;</span><span class="s2">)</span>
+      <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;4. Quitter&quot;</span><span class="s2">)</span>
+
+      <span class="s0">val </span><span class="s1">choix </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez le numéro de votre choix : &quot;</span><span class="s2">)</span>
+
+      <span class="s1">choix </span><span class="s0">match </span><span class="s2">{</span>
+        <span class="s0">case </span><span class="s3">&quot;1&quot; </span><span class="s2">=&gt;</span>
+          <span class="s0">val </span><span class="s1">titre </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez le titre du livre : &quot;</span><span class="s2">)</span>
+          <span class="s0">val </span><span class="s1">auteur </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez le nom de l'auteur : &quot;</span><span class="s2">)</span>
+          <span class="s0">val </span><span class="s1">annee </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez l'année de publication : &quot;</span><span class="s2">).</span><span class="s1">toInt</span>
+          <span class="s1">bibliotheque</span><span class="s2">.</span><span class="s1">ajouterLivre</span><span class="s2">(</span><span class="s1">titre</span><span class="s2">, </span><span class="s1">auteur</span><span class="s2">, </span><span class="s1">annee</span><span class="s2">)</span>
+
+        <span class="s0">case </span><span class="s3">&quot;2&quot; </span><span class="s2">=&gt;</span>
+          <span class="s0">val </span><span class="s1">titre </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez le titre du livre que vous souhaitez emprunter : &quot;</span><span class="s2">)</span>
+          <span class="s1">bibliotheque</span><span class="s2">.</span><span class="s1">emprunterLivre</span><span class="s2">(</span><span class="s1">titre</span><span class="s2">)</span>
+
+        <span class="s0">case </span><span class="s3">&quot;3&quot; </span><span class="s2">=&gt;</span>
+          <span class="s0">val </span><span class="s1">titre </span><span class="s2">= </span><span class="s1">scala</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">StdIn</span><span class="s2">.</span><span class="s1">readLine</span><span class="s2">(</span><span class="s3">&quot;Entrez le titre du livre que vous souhaitez rendre : &quot;</span><span class="s2">)</span>
+          <span class="s1">bibliotheque</span><span class="s2">.</span><span class="s1">rendreLivre</span><span class="s2">(</span><span class="s1">titre</span><span class="s2">)</span>
+
+        <span class="s0">case </span><span class="s3">&quot;4&quot; </span><span class="s2">=&gt;</span>
+          <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Merci d'avoir utilisé la bibliothèque.&quot;</span><span class="s2">)</span>
+          <span class="s1">running </span><span class="s2">= </span><span class="s0">false</span>
+
+        <span class="s0">case </span><span class="s1">_ </span><span class="s2">=&gt;</span>
+          <span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Choix invalide. Veuillez entrer un numéro correspondant à l'action souhaitée.&quot;</span><span class="s2">)</span>
+      <span class="s2">}</span>
+    <span class="s2">}</span>
+  <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
